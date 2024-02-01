@@ -1,58 +1,59 @@
-import React from "react"
 
-enum ElementType {
+export enum FormElementType {
   ShortQuestion = "SHORT_QUESTION",
   LongQuestion = "LONG_QUESTION",
   Video = "VIDEO",
   Radio = "RADIO",
-  FormElementOption = "OPTION_LIST_ITEM"
 }
 
-enum VideoProviders {
-  YouTube = 'YOUTUBE'
+export enum VideoProviders {
+  YouTube = 'YOUTUBE',
+  vimeo = 'VIMEO'
 }
 
+// todo: add 'value' and 'onChange' types
 
 export type FormElementBase = {
   id: string
   label: string
-  type: ElementType
+  type: FormElementType
   required: boolean
 }
 
 type TextFieldOptions = {
-  type: ElementType.LongQuestion
   min?: number
   max?: number
 }
 
 export type LongQuestionElement = FormElementBase & TextFieldOptions & {
-  type: ElementType.LongQuestion
+  type: FormElementType.LongQuestion
 }
 
 export type ShortQuestionElement = FormElementBase & TextFieldOptions & {
-  type: ElementType.ShortQuestion
+  type: FormElementType.ShortQuestion
 }
 
 export type VideoElement = FormElementBase & {
-  type: ElementType.Video
+  type: FormElementType.Video
   url: string
   title: string
-  provider: VideoProviders
+  provider?: VideoProviders
   autoplay?: boolean
 }
 
-export type FormElementOption = Omit<FormElementBase, 'required'> & {
-  type: ElementType.FormElementOption
+export type FormElementOption = {
+  id: string
+  label: string
+  type: "FORM_ELEMENT_OPTION"
 }
 
 export type RadioElement = FormElementBase & {
-  type: ElementType.Radio
+  type: FormElementType.Radio
   optionsList: FormElementOption[]
 }
 
-export type FormElement = TextFieldOptions | LongQuestionElement | ShortQuestionElement | VideoElement | RadioElement
+export type FormElement = LongQuestionElement | ShortQuestionElement | VideoElement | RadioElement
 
-export type FormElementOrder = { id: string }[]
+export type FormElementsOrderedList = string[]
 
 export type FormElements = { [id: string]: FormElement }
